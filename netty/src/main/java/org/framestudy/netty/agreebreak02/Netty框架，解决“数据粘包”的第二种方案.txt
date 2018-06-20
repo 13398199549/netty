@@ -1,0 +1,9 @@
+“报文定长”，见代码org.framestudy.netty.agreebreak02
+
+每次发送的协议报文，长度固定，比如都是：32位
+
+
+
+
+
+

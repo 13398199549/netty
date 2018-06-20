@@ -1,0 +1,8 @@
+1、特殊“分隔符”，见代码org.framestudy.netty.agreebreak01
+2、“报文定长”，见代码org.framestudy.netty.agreebreak02
+3、使用POJO序列化传输，见代码org.framestudy.netty.serial（附带了文件上传）
+
+
+
+
+

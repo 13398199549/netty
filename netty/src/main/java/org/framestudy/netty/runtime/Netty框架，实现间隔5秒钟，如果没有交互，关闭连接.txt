@@ -1,0 +1,8 @@
+sc.pipeline().addLast(new ReadTimeoutHandler(5)); //5秒钟，是否有读的交互
+
+
+
+
+
+
+sc.pipeline().addLast(new WriteTimeoutHandler(5)); //5秒钟，是否有写的交互
