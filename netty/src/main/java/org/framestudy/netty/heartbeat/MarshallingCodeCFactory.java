@@ -12,9 +12,9 @@ import org.jboss.marshalling.Marshalling;
 import org.jboss.marshalling.MarshallingConfiguration;
 
 /**
- * Marshalling工厂
- * @author（alienware）
- * @since 2014-12-16
+ * 采用Jboss Marshalling解码器 完成JAVA对象序列化
+ * @author Administrator
+ *
  */
 public final class MarshallingCodeCFactory {
 

@@ -1,8 +1,12 @@
-package org.framestudy.netty.serial;
+package org.framestudy.netty.agreebreak03;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
+/**
+ * 定义请求对象
+ * @author Administrator
+ *
+ */
 public class Req implements Serializable{
 
 	/**
@@ -18,6 +22,18 @@ public class Req implements Serializable{
 	private String fileName;
 	private byte[] attachment;//携带的附件，例如：文件……
 	
+	public Req() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Req(String id, String name, String requestMessage, String fileName, byte[] attachment) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.requestMessage = requestMessage;
+		this.fileName = fileName;
+		this.attachment = attachment;
+	}
 	public String getId() {
 		return id;
 	}

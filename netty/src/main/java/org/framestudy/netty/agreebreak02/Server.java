@@ -28,7 +28,7 @@ public class Server {
 		 .childHandler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
-				//设置定长字符串接收
+				//设置报文字符串长度
 				sc.pipeline().addLast(new FixedLengthFrameDecoder(5));
 				//设置字符串形式的解码
 				sc.pipeline().addLast(new StringDecoder());

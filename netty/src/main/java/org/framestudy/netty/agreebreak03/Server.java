@@ -1,4 +1,4 @@
-package org.framestudy.netty.serial;
+package org.framestudy.netty.agreebreak03;
 
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -37,6 +37,8 @@ public class Server {
 			.childHandler(new ChannelInitializer<SocketChannel>() {
 				 @Override
 				 protected void initChannel(SocketChannel sc) throws Exception {
+					
+					//设置Jboss Marshalling的2个编码器，完成二进制与对象之间的序列化操作
 					sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
 					sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
 					sc.pipeline().addLast(new ServerHandler());

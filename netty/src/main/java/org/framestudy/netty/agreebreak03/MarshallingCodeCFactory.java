@@ -1,4 +1,4 @@
-package org.framestudy.netty.serial;
+package org.framestudy.netty.agreebreak03;
 
 import org.jboss.marshalling.MarshallerFactory;
 import org.jboss.marshalling.Marshalling;
@@ -12,9 +12,9 @@ import io.netty.handler.codec.marshalling.MarshallingEncoder;
 import io.netty.handler.codec.marshalling.UnmarshallerProvider;
 
 /**
- * Marshalling工厂
- * @author（alienware）
- * @since 2014-12-16
+ * 采用Jboss Marshalling解码器 完成JAVA对象序列化
+ * @author Administrator
+ *
  */
 public final class MarshallingCodeCFactory {
 
@@ -31,6 +31,7 @@ public final class MarshallingCodeCFactory {
 		//根据marshallerFactory和configuration创建provider
 		UnmarshallerProvider provider = new DefaultUnmarshallerProvider(marshallerFactory, configuration);
 		//构建Netty的MarshallingDecoder对象，俩个参数分别为provider和单个消息序列化后的最大长度，目前是1M
+		//超过1M，将不做序列化
 		MarshallingDecoder decoder = new MarshallingDecoder(provider, 1024 * 1024 * 1);
 		return decoder;
     }

@@ -1,8 +1,12 @@
 package org.framestudy.netty.heartbeat;
 
 import java.io.Serializable;
-
-public class RequestInfo implements Serializable {
+/**
+ * 心跳数据
+ * @author Administrator
+ *
+ */
+public class HeartInfo implements Serializable {
 
 	/**
 	 * 

@@ -1,13 +1,19 @@
 
 package org.framestudy.netty.heartbeat;
 
-import io.netty.channel.ChannelFutureListener;
+import org.framestudy.netty.utils.StringUtils;
+
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * 服务端心跳维护处理类
+ * @author Administrator
+ *
+ */
 public class ServerHeartBeatHandler extends ChannelHandlerAdapter {
 
-	private static final String SUCCESS_KEY = "auth_success_key";
+	private static final String SUCCESS_KEY = "auth";
 	/**
 	 * 认证这个地方，请自己按照自己的业务，重新设计
 	 * @param ctx
@@ -16,28 +22,25 @@ public class ServerHeartBeatHandler extends ChannelHandlerAdapter {
 	 * @throws Exception
 	 */
 	private boolean auth(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// System.out.println(msg);
 		String body = (String) msg;
-		if (body != null && !"".equals(body)) {
+		//IP地址不为空，既为认证信息
+		if (!StringUtils.isEmpty(body)) {
 			ctx.writeAndFlush(SUCCESS_KEY);
-			return true;
 		} else {
-			ctx.writeAndFlush("Server ：auth failure !").addListener(ChannelFutureListener.CLOSE);
 			return false;
 		}
+		return true;
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof String) {
 			auth(ctx, msg);
-		} else if (msg instanceof RequestInfo) {
-			RequestInfo info = (RequestInfo) msg;
+		} else if (msg instanceof HeartInfo) {
+			//解析心跳数据
+			HeartInfo info = (HeartInfo) msg;
 			System.out.println("Server ：" + info);
-			
 			ctx.writeAndFlush("Server ：info received!");
-		} else {
-			ctx.writeAndFlush("Server ：connect failure!").addListener(ChannelFutureListener.CLOSE);
 		}
 	}
 

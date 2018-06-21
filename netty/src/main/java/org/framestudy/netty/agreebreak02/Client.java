@@ -23,7 +23,9 @@ public class Client {
 		 .handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
+				//设置报文字符串长度
 				sc.pipeline().addLast(new FixedLengthFrameDecoder(5));
+				//设置字符串形式的解码
 				sc.pipeline().addLast(new StringDecoder());
 				sc.pipeline().addLast(new ClientHandler());
 			}
@@ -31,7 +33,9 @@ public class Client {
 		
 		ChannelFuture cf = b.connect("127.0.0.1", 8765).sync();
 		
-		cf.channel().writeAndFlush(Unpooled.wrappedBuffer("aaaaabbbbb".getBytes()));
+		//向服务端写入数据
+		cf.channel().writeAndFlush(Unpooled.
+				wrappedBuffer("aaaaabbbbb".getBytes()));
 		//当不够5个位时，可以使用空格补位
 		cf.channel().writeAndFlush(Unpooled.
 				copiedBuffer("ccccccc   ".getBytes()));

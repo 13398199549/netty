@@ -13,7 +13,7 @@ public class ClientHandler extends ChannelHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		String response = (String)msg;
-		System.out.println("Client: " + response);
+		System.out.println("Client接收到的响应内容: " + response);
 	}
 
 	@Override
