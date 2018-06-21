@@ -1,5 +1,8 @@
 package org.framestudy.netty.runtime;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,10 +12,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -43,8 +42,6 @@ public class Client {
 					protected void initChannel(SocketChannel sc) throws Exception {
 						sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
 						sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
-						//超时handler（当服务器端与客户端在指定时间以上没有任何进行通信，则会关闭响应的通道，主要为减小服务端资源占用）
-						sc.pipeline().addLast(new ReadTimeoutHandler(5)); 
 						sc.pipeline().addLast(new ClientHandler());
 					}
 		    });
@@ -73,7 +70,6 @@ public class Client {
 	
 	public static void main(String[] args) throws Exception{
 		final Client c = Client.getInstance();
-		//c.connect();
 		
 		ChannelFuture cf = c.getChannelFuture();
 		for(int i = 1; i <= 3; i++ ){
@@ -86,37 +82,17 @@ public class Client {
 			System.out.println(new Date());
 		}
 		
+		//再等待2秒钟
+		TimeUnit.SECONDS.sleep(2);
+		Request request = new Request();
+		request.setId("4");
+		request.setName("pro4");
+		request.setRequestMessage("数据信息4");
+		cf.channel().writeAndFlush(request);
 		
+		
+		//等待关闭连接
 		cf.channel().closeFuture().sync();
-		
-		
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					System.out.println("进入子线程...");
-					ChannelFuture cf = c.getChannelFuture();
-					System.out.println(cf.channel().isActive());
-					System.out.println(cf.channel().isOpen());
-					
-					
-					//再次发送数据
-					Request request = new Request();
-					request.setId("" + 4);
-					request.setName("pro" + 4);
-					request.setRequestMessage("数据信息" + 4);
-					
-					cf.channel().writeAndFlush(request);
-					System.out.println(new Date());
-					cf.channel().closeFuture().sync();//等待连接关闭
-					System.out.println(new Date());
-					System.out.println("子线程结束.");
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		
 		System.out.println("断开连接,主线程结束..");
 		
 	}

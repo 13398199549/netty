@@ -29,7 +29,13 @@ public class Server {
 			protected void initChannel(SocketChannel sc) throws Exception {
 				sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
 				sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
-				sc.pipeline().addLast(new ReadTimeoutHandler(5)); //实现5秒钟，如果两端，如果未交互，直接断开连接
+				
+				//实现5秒钟，如果两端，如果数据读取，直接断开连接
+				sc.pipeline().addLast(new ReadTimeoutHandler(5));
+				
+				//实现5秒钟，如果两端，如果数据写入，直接断开连接
+				//sc.pipeline().addLast(new WriteTimeoutHandler(5));
+				
 				sc.pipeline().addLast(new ServerHandler());
 			}
 		});
